@@ -1,6 +1,13 @@
+import Top from "../components.js/Top"
+import Bottom from "../components.js/Bottom"
+
 export default function HistoricoPage(){
 
     return (
-    <div>HistoricoPage</div>
+        <>
+        <Top></Top>
+        <Bottom></Bottom>
+        </>
+
     )
 }

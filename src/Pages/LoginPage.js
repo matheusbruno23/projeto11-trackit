@@ -2,11 +2,21 @@ import styled from "styled-components"
 import logo from "../assets/logo_trackit.png"
 import { Link, useNavigate } from "react-router-dom"
 import { Navigate } from "react-router-dom"
+import axios from "axios"
+import { useState } from "react"
 
 export default function LoginPage(){
+    const [email, setEmail] = useState("")
+    const [senha, setSenha] = useState("")
     const navigate = useNavigate()
 
-    function login(){
+    function login(e){
+        e.preventDefault()
+        const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login"
+        const body ={email: email , password: senha}
+        const promise = axios.post(url , body)
+        promise.then(res => navigate("/hoje"))
+        promise.catch(err => console.log(err.response.data.message))
         navigate("/hoje")
     }
 
@@ -17,8 +27,8 @@ export default function LoginPage(){
             <p>TrackIt</p>
         </ContainerTopo>
                 <FormContainer onSubmit={login}>
-                    <input placeholder="email" type="email" ></input>
-                    <input placeholder="senha" type="password" ></input>
+                    <input placeholder="email" type="email" value={email} onChange={e => setEmail(e.target.value)} required></input>
+                    <input placeholder="senha" type="password" value={senha} onChange={e => setSenha(e.target.value)} required ></input>
                     <button type="submit">Entrar</button>
                     <Link to="/cadastro">
                        <p>Não tem uma conta? Cadastre-se!</p>

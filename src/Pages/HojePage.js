@@ -1,6 +1,12 @@
+import Top from "../components.js/Top"
+import Bottom from "../components.js/Bottom"
+
 export default function HojePage(){
 
     return (
-    <div>HojePage</div>
+        <>
+            <Top></Top>
+            <Bottom></Bottom>
+        </>
     )
 }

@@ -1,6 +1,12 @@
+import Top from "../components.js/Top"
+import Bottom from "../components.js/Bottom"
 export default function HabitosPage(){
 
     return (
-    <div>HabitosPage</div>
+        <>
+            <Top></Top>
+            <Bottom></Bottom>
+        </>
+
     )
 }

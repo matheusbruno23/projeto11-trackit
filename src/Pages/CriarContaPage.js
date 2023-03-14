@@ -2,10 +2,32 @@ import styled from "styled-components"
 import { ContainerTopo } from "./LoginPage"
 import logo from "../assets/logo_trackit.png"
 import { Link, useNavigate } from "react-router-dom"
+import { useState } from "react"
+import axios from "axios"
 
 export default function CriarContaPage(){
-
+    
+    const [nome, setNome] = useState("")
+    const [email, setEmail] = useState("")
+    const [senha, setSenha] = useState("")
+    const [imagemPerfil, setImagemPerfil] = useState("")
     const navigate = useNavigate()
+
+    function criarNovaConta(e){
+    e.preventDefault()
+    const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up"
+    const body = {
+        email: email,
+        name: nome,
+        image: imagemPerfil,
+        password: senha
+    }
+    console.log(body)
+    const promise = axios.post(URL , body)
+    promise.then(res => navigate("/") )
+    promise.catch(err => alert(err.response.data.message))
+    
+    }
 
     return (
     <ContainerCreate >
@@ -13,16 +35,16 @@ export default function CriarContaPage(){
             <img src={logo} />
             <p>TrackIt</p>
         </ContainerTopo>
-        <FormContainer onSubmit={() => navigate("/")}>
-        <input placeholder="email" type="email" ></input>
-                    <input placeholder="senha" type="password" ></input>
-                    <input placeholder="nome" type="text" ></input>
-                    <input placeholder="foto" type="text" ></input>
-                    <button type="submit">Cadastrar</button>
-                    <Link to="/">
-                       <p>Já tem uma conta? Faça login!</p>
-                    </Link>
-        </FormContainer>
+            <FormContainer onSubmit={criarNovaConta}>
+                <input placeholder="email" type="email" value={email} onChange={e => setEmail(e.target.value)} required></input>
+                <input placeholder="senha" type="password" value={senha} onChange={e => setSenha(e.target.value)} required></input>
+                <input placeholder="nome" type="text" value={nome} onChange={e => setNome(e.target.value)} required></input>
+                <input placeholder="foto" type="url" value={imagemPerfil} onChange={e => setImagemPerfil(e.target.value)} required></input>
+                <button type="submit">Cadastrar</button>
+                <Link to="/">
+                    <p>Já tem uma conta? Faça login!</p>
+                </Link>
+            </FormContainer>
     </ContainerCreate>
     )
 }
@@ -60,6 +82,7 @@ input{
 }
 input::placeholder{
     color: #D4D4D4;
+    
 }
 button{
     width: 303px;
@@ -71,10 +94,11 @@ button{
     font-family: 'Lexend Deca', sans-serif;
     font-weight: 400;
     font-weight: 400;
+    box-sizing: border-box;
 }
 textarea:focus, input:focus, select:focus {
     box-shadow: 0 0 0 0;
-    border: none;
+    border: 2px solid grey;
     outline: 0;
 } 
 p{
