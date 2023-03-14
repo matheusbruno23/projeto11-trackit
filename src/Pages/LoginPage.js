@@ -1,7 +1,14 @@
 import styled from "styled-components"
 import logo from "../assets/logo_trackit.png"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { Navigate } from "react-router-dom"
+
 export default function LoginPage(){
+    const navigate = useNavigate()
+
+    function login(){
+        navigate("/hoje")
+    }
 
     return (
         <Container>
@@ -9,19 +16,19 @@ export default function LoginPage(){
             <img src={logo} />
             <p>TrackIt</p>
         </ContainerTopo>
-                <Form>
+                <FormContainer onSubmit={login}>
                     <input placeholder="email" type="email" ></input>
-                    <input placeholder="senha" type="senha" ></input>
+                    <input placeholder="senha" type="password" ></input>
                     <button type="submit">Entrar</button>
-                    <Link to="">
+                    <Link to="/cadastro">
                        <p>Não tem uma conta? Cadastre-se!</p>
                     </Link>
-                </Form>
+                </FormContainer>
         </Container>
     )
 }
 
-const Container = styled.div`
+export const Container = styled.div`
 width: 375px;
 height: 1000px;
 margin: auto;
@@ -31,7 +38,7 @@ align-items: center;
 background-color: #FFFFFF;
 `
 
-const ContainerTopo = styled.div`
+export const ContainerTopo = styled.div`
 width: 180px;
 height: 180px;
 margin-top: 68px;
@@ -52,7 +59,7 @@ img{
 }
 `
 
-const Form = styled.form`
+const FormContainer = styled.form`
 display: flex;
 flex-direction:column;
 margin-top: 32px;
@@ -70,7 +77,7 @@ input{
     font-family: 'Lexend Deca', sans-serif;
     font-size: 20px;
     font-weight: 400;
-    color: #D4D4D4;
+    color: grey;
 }
 input::placeholder{
     color: #D4D4D4;
