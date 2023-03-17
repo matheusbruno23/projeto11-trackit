@@ -11,6 +11,7 @@ export default function CriarContaPage(){
     const [email, setEmail] = useState("")
     const [senha, setSenha] = useState("")
     const [imagemPerfil, setImagemPerfil] = useState("")
+    const [desativado,setDesativado] = useState("")
     const navigate = useNavigate()
 
     function criarNovaConta(e){
@@ -24,8 +25,12 @@ export default function CriarContaPage(){
     }
     console.log(body)
     const promise = axios.post(URL , body)
-    promise.then(res => navigate("/") )
+    promise.then(res => {
+        navigate("/")
+        setDesativado("")
+     })
     promise.catch(err => alert(err.response.data.message))
+    setDesativado("disabled")
     
     }
 

@@ -4,9 +4,11 @@ import LoginPage from "./Pages/LoginPage";
 import HabitosPage from "./Pages/HabitosPage";
 import HistoricoPage from "./Pages/HistoricoPage";
 import HojePage from "./Pages/HojePage";
+import { useState } from "react";
 
 
 function App() {
+
   return (
     <div className="App">
       <BrowserRouter>
