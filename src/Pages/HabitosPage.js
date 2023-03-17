@@ -39,8 +39,8 @@ export default function HabitosPage(){
                 <Form onSubmit={salvar}>
                 <input type="text" placeholder="nome do hábito" required></input>
                 <ContainerButtonsSemana>
-                    {semana.map((dia) => (
-                        <button required>{dia}</button>
+                    {semana.map((dia, i) => (
+                        <button required key={i}>{dia}</button>
                     ))}
                 </ContainerButtonsSemana>
                 <ContainerButtonsSalvar>
