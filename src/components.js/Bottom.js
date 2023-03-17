@@ -36,6 +36,7 @@ export default function Bottom(){
 }
 
 const Baixo = styled.div`
+background-color: #ffffff;
 width: 100%;
 height: 100px;
 position: fixed;
@@ -47,6 +48,7 @@ left: 0;
 font-family: 'Lexend Deca', sans-serif;
 
 button{
+    margin-top: 18px;
     color:#52B6FF;
     border: none;
     background-color: #ffffff;
