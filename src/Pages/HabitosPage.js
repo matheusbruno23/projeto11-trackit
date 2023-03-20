@@ -1,13 +1,22 @@
 import Top from "../components.js/Top"
 import Bottom from "../components.js/Bottom"
 import styled from "styled-components"
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import { UserContext } from "../contexts/UserContext"
+import axios from "axios"
 export default function HabitosPage(){
+    const {user} = useContext(UserContext)
+    
+//verificar se ja foi clicado
+
+    const [foiClicado, setFoiClicado] =useState(0) 
 
     //verifica se já criou algum habito
     const [habitosCriados, setHabitosCriados] = useState(false)
     //lista de habitos criados
     const [habito , setHabito] = useState([])
+    const [diaClicado, setDiaClicado] =useState([])
+    const listaDiasClicados = []
     //dias da semana
     const semana = ['D','S','T','Q','Q','S','S']
 
@@ -16,15 +25,47 @@ export default function HabitosPage(){
         console.log('clicou')
     }
 
+    function selecionarDia(i){
+        if(i === foiClicado){
+            console.log('ja foi clicado')
+        }
+        listaDiasClicados.push(i)
+        setFoiClicado(i)
+        setDiaClicado(listaDiasClicados)
+        console.log(listaDiasClicados)
+    }    
+    
     function cancelar(){
         setHabitosCriados(false)
     }
-    function salvar(){
-        console.log("salvando")
+
+    function salvar(e){
+        e.preventDefault()
+
     }
+
+    useEffect(()=> {
+        const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
+        const config = {
+            headers:  {Authorization: `Bearer ${user.token}`}
+          }
+
+        const promise = axios.get( url , config)
+        promise.then((res)=> {
+            console.log(res)
+        })
+        promise.catch((err)=> {
+            console.log(err.response.data)
+        })
+
+
+
+
+    }, [])
+
     return (
         <>
-            <Top></Top>
+            <Top imagem={user.image}></Top>
             <Container>
             <Header>
                 <p>Meus habitos</p>
@@ -40,12 +81,17 @@ export default function HabitosPage(){
                 <input type="text" placeholder="nome do hábito" required></input>
                 <ContainerButtonsSemana>
                     {semana.map((dia, i) => (
-                        <button required key={i}>{dia}</button>
+                        <ButtonDiaSemana  key={i} 
+                            onClick={() => selecionarDia(i+1)}
+                            clicado={foiClicado === i+1}
+                            >
+                            {dia}
+                        </ButtonDiaSemana>
                     ))}
                 </ContainerButtonsSemana>
                 <ContainerButtonsSalvar>
                     <ButtonCancelar onClick={cancelar}>Cancelar</ButtonCancelar>
-                    <ButtonSalvar>Salvar</ButtonSalvar>
+                    <ButtonSalvar onClick={salvar}>Salvar</ButtonSalvar>
                 </ContainerButtonsSalvar>
                 </Form>
                 </ContainerCriarHabitos>
@@ -110,13 +156,15 @@ const Form = styled.form`
 display: flex;
 flex-direction: column;
 align-items: center;
-
 input{
     width: 303px;
     height: 45px;
     border: 1px solid #D4D4D4;
     border-radius: 5px;
     box-sizing: border-box;
+    color: #666666;
+    font-size: 20px;
+    font-family: 'Lexend Deca', sans-serif;
 }
 input::placeholder{
     font-size: 20px;
@@ -132,7 +180,8 @@ width: 300px;
 height: 30px;
 margin-top: 8px;
 
-button{
+`
+const ButtonDiaSemana = styled.button`
     width: 30px;
     height: 30px;
     background: #FFFFFF;
@@ -140,10 +189,10 @@ button{
     border-radius: 5px;
     margin-right: 4px;
     font-size: 20px;
-    color: #DBDBDB;
+    color: ${props => props.clicado ? "red" : "#DBDBDB"};
     font-family: 'Lexend Deca', sans-serif;
-}
 `
+
 const ContainerButtonsSalvar = styled.div`
 width: 180px;
 height: 35px;

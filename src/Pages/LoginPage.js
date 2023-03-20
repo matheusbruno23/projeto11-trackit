@@ -4,10 +4,12 @@ import { Link, useNavigate } from "react-router-dom"
 import { Navigate } from "react-router-dom"
 import { ThreeDots } from "react-loader-spinner"
 import axios from "axios"
+import { UserContext } from "../contexts/UserContext"
 import { useContext, useEffect, useState } from "react"
-import TokenContext from "../TokenContext";
 
 export default function LoginPage(){
+    const {user, setUser} = useContext(UserContext)
+
     const [email, setEmail] = useState("")
     const [senha, setSenha] = useState("")
     const [botaoLogin, setBotaoLogin] = useState("Entrar")
@@ -30,6 +32,7 @@ export default function LoginPage(){
             setCarregando(false)
             setDesativado("")
             setBotaoLogin("Entrar")
+            setUser(res.data)
         })
         promise.catch(err => {
             alert(err.response.data.message)

@@ -1,11 +1,10 @@
 import styled from "styled-components"
-import luffy from "../assets/luffy.jpg"
-export default function Top(){
+export default function Top({imagem}){
 
     return (
     <Topo>
         <h1>TrackIt</h1>
-        <img src={luffy}/>
+        <img src={imagem}/>
     </Topo>
     )
 }

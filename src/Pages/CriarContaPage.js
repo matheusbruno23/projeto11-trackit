@@ -26,21 +26,23 @@ export default function CriarContaPage(){
         image: imagemPerfil,
         password: senha
     }
+    const promise = axios.post(URL , body)
     setCarregando(true)
     setDesativado("disabled")
     setBotaoCadastrar("")
-    console.log(body)
-    const promise = axios.post(URL , body)
     promise.then(res => {
         setDesativado("")
         setBotaoCadastrar("Cadastrar")
         setCarregando(false)
         navigate("/")
      })
-    promise.catch(err => alert(err.response.data.message))
-    setDesativado("")
-    setCarregando(false)
-    setBotaoCadastrar("Cadastrar")
+    promise.catch(err => {
+        alert(err.response.data.message)
+        setDesativado("")
+        setCarregando(false)
+        setBotaoCadastrar("Cadastrar")
+    })
+
     
     }
 
@@ -122,6 +124,9 @@ button{
     font-weight: 400;
     font-weight: 400;
     box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 textarea:focus, input:focus, select:focus {
     box-shadow: 0 0 0 0;
